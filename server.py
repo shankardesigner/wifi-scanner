@@ -3,7 +3,7 @@ import os
 import socketserver
 
 # Paths
-base_dir = "/home/ubuntu/Downloads/pentest-project"
+base_dir = os.getcwd()
 output_dir = os.path.join(base_dir, "scan-results")
 index_path = os.path.join(base_dir, "index.html")
 PORT = 8080
