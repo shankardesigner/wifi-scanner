@@ -1,0 +1,121 @@
+{
+    "wep": [],
+    "wpa": [
+        {
+            "SSID": "CBCI-A551-2.4",
+            "Signal": "50%",
+            "Channel": "1",
+            "Encryption": "WPA2"
+        },
+        {
+            "SSID": "CBCI-A551-5",
+            "Signal": "45%",
+            "Channel": "161",
+            "Encryption": "WPA2"
+        },
+        {
+            "SSID": "DIRECT-qzM2020 Series",
+            "Signal": "84%",
+            "Channel": "11",
+            "Encryption": "WPA2"
+        },
+        {
+            "SSID": "PremierCardiologyNP",
+            "Signal": "30%",
+            "Channel": "6",
+            "Encryption": "WPA2"
+        },
+        {
+            "SSID": "Xfinity Mobile",
+            "Signal": "44%",
+            "Channel": "161",
+            "Encryption": "WPA2"
+        },
+        {
+            "SSID": "Avadian",
+            "Signal": "42%",
+            "Channel": "1",
+            "Encryption": "WPA2"
+        },
+        {
+            "SSID": "Alula04D0DC",
+            "Signal": "30%",
+            "Channel": "1",
+            "Encryption": "WPA2"
+        },
+        {
+            "SSID": "Farrey-07",
+            "Signal": "31%",
+            "Channel": "6",
+            "Encryption": "WPA2"
+        }
+    ],
+    "open": [
+        {
+            "SSID": "Guesthouse Inn",
+            "Signal": "87%",
+            "Channel": "1",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Guesthouse Inn",
+            "Signal": "72%",
+            "Channel": "6",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Guesthouse Inn",
+            "Signal": "32%",
+            "Channel": "11",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Guesthouse Inn",
+            "Signal": "50%",
+            "Channel": "48",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Guesthouse Inn",
+            "Signal": "28%",
+            "Channel": "6",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Linksys",
+            "Signal": "75%",
+            "Channel": "6",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Guesthouse Inn",
+            "Signal": "82%",
+            "Channel": "149",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "GLEN EAST 2",
+            "Signal": "50%",
+            "Channel": "4",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Linksys",
+            "Signal": "58%",
+            "Channel": "36",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "xfinitywifi",
+            "Signal": "44%",
+            "Channel": "161",
+            "Encryption": "Open"
+        },
+        {
+            "SSID": "Avadian Visitor",
+            "Signal": "42%",
+            "Channel": "1",
+            "Encryption": "Open"
+        }
+    ]
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WiFi Scanner</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .file-input { margin-bottom: 1rem; }
+    .tab-content { margin-top: 1rem; }
+    .table-container { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <h2 class="text-center mb-4">📶 WiFi Scanner Dashboard</h2>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" id="wifiTabs" role="tablist">
+      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#networks">Networks</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#devices">Devices</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#analysis">Network Analysis</a></li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      <!-- Networks Tab -->
+      <div class="tab-pane fade show active" id="networks">
+        <input type="file" class="form-control file-input" id="networksFile" accept=".json">
+        <div id="networksTable" class="table-container"></div>
+      </div>
+
+      <!-- Devices Tab -->
+      <div class="tab-pane fade" id="devices">
+        <input type="file" class="form-control file-input" id="devicesFile" accept=".json">
+        <div id="devicesTable" class="table-container"></div>
+      </div>
+
+      <!-- Analysis Tab -->
+      <div class="tab-pane fade" id="analysis">
+        <input type="file" class="form-control file-input" id="analysisFile" accept=".json">
+        <div id="analysisTables" class="table-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Render simple table from array of objects
+    function renderTable(data, containerId) {
+      const container = document.getElementById(containerId);
+      if (!Array.isArray(data) || data.length === 0) {
+        container.innerHTML = '<p>No data available</p>';
+        return;
+      }
+
+      const headers = Object.keys(data[0]);
+      let table = '<table class="table table-striped table-bordered">';
+      table += '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+      table += data.map(row => '<tr>' + headers.map(h => `<td>${row[h]}</td>`).join('') + '</tr>').join('');
+      table += '</tbody></table>';
+      container.innerHTML = table;
+    }
+
+    // Handle single file input and load JSON
+    function handleFileInput(inputId, containerId) {
+      document.getElementById(inputId).addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const json = JSON.parse(e.target.result);
+            renderTable(json, containerId);
+          } catch (err) {
+            alert('Invalid JSON format');
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
+
+    // Handle network analysis (grouped data)
+    document.getElementById('analysisFile').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          const container = document.getElementById('analysisTables');
+          container.innerHTML = '';
+
+          for (const type of ['wep', 'wpa', 'open']) {
+            const entries = data[type] || [];
+            const heading = `<h5 class="mt-4">${type.toUpperCase()} Networks</h5>`;
+            container.innerHTML += heading;
+            if (entries.length > 0) {
+              const tableId = `table-${type}`;
+              container.innerHTML += `<div id="${tableId}"></div>`;
+              renderTable(entries, tableId);
+            } else {
+              container.innerHTML += '<p>No data available.</p>';
+            }
+          }
+        } catch (err) {
+          alert('Invalid JSON format in analysis file');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // Setup handlers
+    handleFileInput('networksFile', 'networksTable');
+    handleFileInput('devicesFile', 'devicesTable');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
