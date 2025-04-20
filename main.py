@@ -167,7 +167,7 @@ def start_server():
     os.chdir(base_dir)
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", PORT), handler) as httpd:
-        print(f"Serving at http://localhost:{PORT}")
+        print(f"Serving at http://localhost:{PORT}/scanned-results")
         httpd.serve_forever()
 
   
@@ -176,4 +176,4 @@ if __name__ == "__main__":
         print("Please run this script as root (sudo).")
     else:
         main()
-        start_server()
+        # start_server()
