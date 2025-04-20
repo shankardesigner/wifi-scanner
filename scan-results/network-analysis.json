@@ -52,31 +52,31 @@
     ],
     "open": [
         {
-            "SSID": "Guesthouse Inn",
+            "SSID": "Silver Spoon Inn",
             "Signal": "87%",
             "Channel": "1",
             "Encryption": "Open"
         },
         {
-            "SSID": "Guesthouse Inn",
+            "SSID": "Silver Spoon Inn",
             "Signal": "72%",
             "Channel": "6",
             "Encryption": "Open"
         },
         {
-            "SSID": "Guesthouse Inn",
+            "SSID": "Silver Spoon Inn",
             "Signal": "32%",
             "Channel": "11",
             "Encryption": "Open"
         },
         {
-            "SSID": "Guesthouse Inn",
+            "SSID": "Silver Spoon Inn",
             "Signal": "50%",
             "Channel": "48",
             "Encryption": "Open"
         },
         {
-            "SSID": "Guesthouse Inn",
+            "SSID": "Silver Spoon Inn",
             "Signal": "28%",
             "Channel": "6",
             "Encryption": "Open"
@@ -88,7 +88,7 @@
             "Encryption": "Open"
         },
         {
-            "SSID": "Guesthouse Inn",
+            "SSID": "Silver Spoon Inn",
             "Signal": "82%",
             "Channel": "149",
             "Encryption": "Open"
