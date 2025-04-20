@@ -1,13 +1,18 @@
+import http.server
 import os
+import socketserver
 import subprocess
 import re
 from scapy.all import ARP, Ether, srp
 import requests
 import json
 
-# ------------------------------
-# Helpers
-# ------------------------------
+# Paths
+base_dir = "/home/ubuntu/Downloads/pentest-project"
+output_dir = os.path.join(base_dir, "scan-results")
+index_path = os.path.join(base_dir, "index.html")
+PORT = 8080
+
 
 def run_command(cmd):
     try:
@@ -158,8 +163,17 @@ def main():
     for w in warnings:
         print(w)
 
+def start_server():
+    os.chdir(base_dir)
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", PORT), handler) as httpd:
+        print(f"Serving at http://localhost:{PORT}")
+        httpd.serve_forever()
+
+  
 if __name__ == "__main__":
     if os.geteuid() != 0:
         print("Please run this script as root (sudo).")
     else:
         main()
+        start_server()
