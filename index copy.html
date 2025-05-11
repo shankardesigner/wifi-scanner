@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WiFi Scanner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+
+  <!-- Preload Icons -->
+  <link rel="preload" href="https://img.icons8.com/ios-filled/50/ffffff/radar.png" as="image">
+  <link rel="preload" href="https://img.icons8.com/ios-filled/50/ffffff/wifi.png" as="image">
+  <link rel="preload" href="https://img.icons8.com/ios-filled/50/ffffff/smartphone.png" as="image">
+  <link rel="preload" href="https://img.icons8.com/ios-filled/50/ffffff/checkmark.png" as="image">
+  <link rel="preload" href="https://img.icons8.com/ios-filled/50/ffffff/error.png" as="image">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #ffffff;
+      font-family: 'Fira Code', monospace;
+      overflow: hidden;
+    }
+
+    .terminal {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 240px;
+      background-color: #1e1e2e;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      border: 1px solid #444;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .terminal-header {
+      background-color: #2d2d3a;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .red { background-color: #ff5f56; }
+    .yellow { background-color: #ffbd2e; }
+    .green { background-color: #27c93f; }
+
+    .terminal-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex-grow: 1;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #e5e5e5;
+      white-space: pre-wrap;
+    }
+
+    .log-entry {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .log-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .info    { color: #89b4fa; }
+    .success { color: #a6e3a1; }
+    .warning { color: #f38ba8; }
+    .bold    { font-weight: bold; }
+
+    .pulse-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 1px solid #b2ebf2;
+      border-radius: 50%;
+      animation: pulse 2.4s ease-out infinite;
+    }
+
+    .pulse-ring:nth-child(2) { animation-delay: 0.8s; }
+    .pulse-ring:nth-child(3) { animation-delay: 1.6s; }
+
+    @keyframes pulse {
+      0% { transform: scale(0.7); opacity: 1; }
+      100% { transform: scale(3.5); opacity: 0; }
+    }
+
+    .button-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    .scan-button {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      background-color: white;
+      color: black;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .scan-button:hover {
+      transform: scale(1.05);
+    }
+
+    .scan-button::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: conic-gradient(#ff6600, #ff0099, #00ccff, #ff6600);
+      border-radius: 50%;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Terminal -->
+  <div class="terminal">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+    </div>
+    <div class="terminal-body" id="terminalBody">
+      <div class="log-entry info">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/radar.png" alt="Scan" class="log-icon">
+        <span>💻 Ready to scan WiFi...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pulse + Scan Button -->
+  <div class="pulse-wrapper">
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="button-wrapper">
+      <button class="scan-button" onclick="startScan()">Scan WiFi</button>
+    </div>
+  </div>
+
+  <!-- Your Original JS: UNCHANGED -->
+  <script>
+    let activeStream = null;
+
+    function classifyLine(line) {
+      let icon = 'https://img.icons8.com/ios-filled/50/ffffff/radar.png';
+      let cls = 'info';
+
+      if (line.includes('[*]')) {
+        icon = 'https://img.icons8.com/ios-filled/50/ffffff/radar.png';
+      } else if (line.includes('Found:')) {
+        icon = 'https://img.icons8.com/ios-filled/50/ffffff/wifi.png';
+      } else if (line.includes('Device:')) {
+        icon = 'https://img.icons8.com/ios-filled/50/ffffff/smartphone.png';
+      } else if (line.includes('complete')) {
+        icon = 'https://img.icons8.com/ios-filled/50/ffffff/checkmark.png';
+        cls = 'success';
+      } else if (line.includes('Scan completed')) {
+        icon = 'https://img.icons8.com/ios-filled/50/ffffff/checkmark.png';
+        cls = 'success bold';
+      } else if (line.includes('Error')) {
+        icon = 'https://img.icons8.com/ios-filled/50/ffffff/error.png';
+        cls = 'warning';
+      }
+
+      return `<div class="log-entry ${cls}">
+                <img src="${icon}" alt="icon" class="log-icon">
+                <span>${line}</span>
+              </div>`;
+    }
+
+    function startScan() {
+      const terminal = document.getElementById("terminalBody");
+      terminal.innerHTML = `<div class="log-entry info">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/radar.png" alt="Scan" class="log-icon">
+        <span>💻 Starting new scan...</span>
+      </div>`;
+
+      if (activeStream) {
+        activeStream.close();
+        activeStream = null;
+      }
+
+      activeStream = new EventSource("http://localhost:5000/scan-stream");
+
+      activeStream.onmessage = function (event) {
+        if (event.data === "$ END_OF_STREAM") {
+          activeStream.close();
+          activeStream = null;
+          return;
+        }
+
+        const formatted = classifyLine(event.data);
+        terminal.innerHTML += formatted;
+        terminal.scrollTop = terminal.scrollHeight;
+      };
+
+      activeStream.onerror = function () {
+        activeStream.close();
+        activeStream = null;
+      };
+    }
+  </script>
+</body>
+</html>

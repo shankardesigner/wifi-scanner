@@ -1,2 +1,5 @@
 scapy==2.6.1
 requests
+Flask
+flask-cors
+netifaces

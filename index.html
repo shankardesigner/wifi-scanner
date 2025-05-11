@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WiFi Scanner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Fira Code", monospace;
+      background-color: #fff;
+      overflow: hidden;
+    }
+
+    .container {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .alert-box {
+      display: none;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      width: 90%;
+      max-width: 600px;
+      margin-top: 20px;
+      border: 1px solid #c3e6cb;
+      background-color: #e6f4ea;
+      color: #155724;
+      justify-content: space-between;
+    }
+
+    .alert-box.show {
+      animation: slideDown 0.3s ease forwards;
+      display: flex !important;
+    }
+
+    .alert-icon img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .alert-content {
+      flex-grow: 1;
+      font-size: 15px;
+    }
+
+    .alert-action {
+      width: 150px;
+      height: 50px;
+      background-color: transparent;
+      color: #0d6efd;
+      border: 1px solid #0d6efd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .alert-action:hover {
+      background-color: #0d6efd;
+      color: #fff;
+    }
+
+    .terminal {
+      position: absolute;
+      top: 150px;
+      bottom: 250px;
+      width: 80vw;
+      background-color: #1e1e1e;
+      color: #e5e5e5;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 999;
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .terminal.open {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .terminal-header {
+      background-color: #2d2d2d;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 8px;
+      background-color: #2d2d2d;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .red {
+      background-color: #ff5f56;
+    }
+
+    .yellow {
+      background-color: #ffbd2e;
+    }
+
+    .green {
+      background-color: #27c93f;
+    }
+
+    .terminal-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex-grow: 1;
+      font-size: 15px;
+      line-height: 1;
+      position: relative;
+      z-index: 999;
+    }
+
+    .log-entry {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .log-prefix {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 6px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .log-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .dollar-sign {
+      color: #e5e5e5;
+    }
+
+    .log-message {
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .info {
+      color: #89b4fa;
+    }
+
+    .success {
+      color: #a6e3a1;
+    }
+
+    .warning {
+      color: #f38ba8;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .pulse-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.5s ease;
+      pointer-events: none;
+    }
+
+    .pulse-wrapper.moved {
+      transform: translateY(calc(100vh - 500px));
+    }
+
+    .pulse-svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .pulse-svg.complete .pulse-circle {
+      opacity: 0.5 !important;
+    }
+
+    .pulse-circle {
+      fill: none;
+      stroke: url(#pulseGradient);
+      stroke-width: 1;
+      animation: pulseGrow 2.4s linear infinite;
+      opacity: 1;
+    }
+
+    .pulse-circle:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .pulse-circle:nth-child(2) {
+      animation-delay: 0.8s;
+    }
+
+    .pulse-circle:nth-child(3) {
+      animation-delay: 1.6s;
+    }
+
+    @keyframes pulseGrow {
+      0% {
+        r: 60;
+        opacity: 1;
+      }
+
+      100% {
+        r: 360;
+        opacity: 0;
+      }
+    }
+
+    .button-border-wrapper {
+      position: relative;
+      width: 128px;
+      height: 128px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    .button-border {
+      position: absolute;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(45deg, #ff6600, #ff0099, #00ccff);
+      transition: transform 0.3s ease;
+    }
+
+    .button-border.rotating {
+      animation: rotate 1s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .center-button {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: white;
+      border: none;
+      color: #222;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+
+    .center-button:hover {
+      transform: scale(1.05);
+    }
+
+    /* Fullscreen Modal */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(45deg, #ff6600, #ff0099, #00ccff);
+      z-index: 9999;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .modal-tabs .tab {
+      background: none;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      color: #666;
+      transition: 0.3s ease;
+    }
+
+    .modal-tabs .tab.active {
+      color: #0d6efd;
+      border-color: #0d6efd;
+    }
+
+    .tab-content {
+      display: none;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 14px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 26px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      padding: 14px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #fff;
+      font-weight: bold;
+    }
+
+    .modal-body {
+      height: calc(100vh - 200px);
+      overflow-y: auto;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      padding: 14px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #fff;
+      font-weight: bold;
+    }
+
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+
+    .spinner {
+      width: 3rem;
+      height: 3rem;
+      border: 5px solid rgba(0, 0, 0, 0.1);
+      border-top-color: #4a4aff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .close-button {
+      background: white;
+      border: 1px solid #4a4aff;
+      color: #4a4aff;
+      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease-in-out;
+      position: absolute;
+      right: 30px;
+      top: 18px;
+    }
+
+    .close-button:hover {
+      background: #f0f8ff;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="alert-box" id="alertBox">
+      <div class="alert-icon">
+        <img src="https://img.icons8.com/color/48/checked.png" alt="Success Icon" />
+      </div>
+      <div class="alert-content">Your WiFi scan finished successfully.</div>
+      <button class="alert-action" onclick="openModal()">View Results</button>
+    </div>
+
+    <div class="terminal" id="terminal">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+      </div>
+      <div class="terminal-body" id="terminalBody">
+        <div class="log-entry info">
+          <span class="log-prefix">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/radar.png" alt="icon" class="log-icon" />
+          </span>
+          <span class="log-message">Ready to scan WiFi...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pulse-wrapper" id="pulseWrapper">
+      <svg class="pulse-svg pulsing" id="pulseSvg">
+        <defs>
+          <radialGradient id="pulseGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff6600" />
+            <stop offset="50%" stop-color="#ff0099" />
+            <stop offset="100%" stop-color="#00ccff" />
+          </radialGradient>
+        </defs>
+        <circle class="pulse-circle" cx="50%" cy="50%" r="60" />
+        <circle class="pulse-circle" cx="50%" cy="50%" r="60" />
+        <circle class="pulse-circle" cx="50%" cy="50%" r="60" />
+      </svg>
+
+      <div class="button-border-wrapper">
+        <div class="button-border" id="buttonBorder"></div>
+        <button class="center-button" id="scanButton" onclick="toggleScan()">
+          Scan WiFi
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-modal" id="resultsModal">
+    <div class="modal-content">
+      <div class="modal-tabs">
+        <div class="tab-buttons">
+          <button class="tab active" onclick="openTab(event, 'account')">
+            Wi-Fi Networks
+          </button>
+          <button class="tab" onclick="openTab(event, 'room')">
+            Connected Devices
+          </button>
+          <button class="tab" onclick="openTab(event, 'extra')">
+            Security Summary
+          </button>
+        </div>
+        <button class="close-button" onclick="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="tab-content active" id="account"></div>
+        <div class="tab-content" id="room"></div>
+        <div class="tab-content" id="extra"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let scanning = false;
+    let activeStream = null;
+
+    function delay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    const tabFunctions = {
+      account: fetchWifiNetworks,
+      room: fetchConnectedDevices,
+      extra: fetchSecuritySummary,
+    };
+
+    function setLoader(tabId) {
+      const tab = document.getElementById(tabId);
+      tab.innerHTML = `
+    <div class="loader">
+      <div class="spinner"></div>
+    </div>`;
+    }
+
+    function classifyLine(line) {
+      let icon = "https://img.icons8.com/ios-filled/50/ffffff/radar.png";
+      let cls = "info";
+
+      if (line.includes("Found:")) {
+        icon = "https://img.icons8.com/ios-filled/50/ffffff/wifi.png";
+      } else if (line.includes("Device:")) {
+        icon = "https://img.icons8.com/ios-filled/50/ffffff/smartphone.png";
+      } else if (
+        line.includes("complete") ||
+        line.includes("Scan completed")
+      ) {
+        icon = "https://img.icons8.com/ios-filled/50/ffffff/checkmark.png";
+        cls = "success bold";
+      } else if (line.includes("Error")) {
+        icon = "https://img.icons8.com/ios-filled/50/ffffff/error.png";
+        cls = "warning";
+      }
+
+      return `
+        <div class="log-entry ${cls}">
+          <span class="log-prefix">
+            <img src="${icon}" alt="icon" class="log-icon" />
+          </span>
+          <span class="log-message">${line}</span>
+        </div>
+      `;
+    }
+
+    function startScan() {
+      const terminal = document.getElementById("terminalBody");
+      const button = document.getElementById("scanButton");
+      const border = document.getElementById("buttonBorder");
+      const pulseSvg = document.getElementById("pulseSvg");
+      const alertBox = document.getElementById("alertBox");
+      const pulseWrapper = document.getElementById("pulseWrapper");
+
+      terminal.innerHTML = classifyLine("Starting new scan...");
+      button.innerText = "Scanning...";
+      border.classList.add("rotating");
+      pulseSvg.classList.remove("complete");
+      alertBox.style.display = "none";
+
+      if (activeStream) {
+        activeStream.close();
+        activeStream = null;
+      }
+
+      activeStream = new EventSource("http://localhost:5000/scan-stream");
+
+      activeStream.onmessage = function (event) {
+        if (event.data === "$ END_OF_STREAM") {
+          endScan();
+          return;
+        }
+
+        const formatted = classifyLine(event.data);
+        terminal.innerHTML += formatted;
+        terminal.scrollTop = terminal.scrollHeight;
+      };
+
+      activeStream.onerror = function () {
+        endScan();
+      };
+
+      function endScan() {
+        if (activeStream) activeStream.close();
+        scanning = false;
+        button.innerText = "Scan Again";
+        border.classList.remove("rotating");
+        pulseSvg.classList.add("complete");
+        alertBox.classList.add("show");
+      }
+    }
+
+    function toggleScan() {
+      const terminal = document.getElementById("terminal");
+      const pulseWrapper = document.getElementById("pulseWrapper");
+
+      if (!scanning) {
+        scanning = true;
+        terminal.classList.add("open");
+        pulseWrapper.classList.add("moved");
+        startScan();
+      }
+    }
+
+    function openModal() {
+      document.getElementById("resultsModal").style.display = "block";
+      const tabId = "account";
+      setLoader(tabId);
+      fetchWifiNetworks(tabId);
+    }
+
+    function closeModal() {
+      // document.getElementById("resultsModal").style.display = "none";
+      window.location.reload();
+    }
+
+    async function openTab(evt, tabId) {
+      const tabs = document.querySelectorAll(".tab-content");
+      const buttons = document.querySelectorAll(".modal-tabs .tab");
+
+      tabs.forEach((t) => t.classList.remove("active"));
+      buttons.forEach((b) => b.classList.remove("active"));
+
+      const target = document.getElementById(tabId);
+      target.classList.add("active");
+      evt.currentTarget.classList.add("active");
+
+      setLoader(tabId);
+      await tabFunctions[tabId](tabId);
+    }
+
+    async function fetchWifiNetworks(tabId) {
+      try {
+        const resPromise = fetch("http://localhost:5000/wifi-networks").then(
+          (res) => res.json()
+        );
+
+        const [data] = await Promise.all([resPromise, delay(1000)]);
+
+        let html = `<table>
+      <tr><th>SSID</th><th>Signal</th><th>Channel</th><th>Encryption</th></tr>`;
+        data.forEach((net) => {
+          html += `<tr>
+        <td>${net.SSID}</td>
+        <td>${net.Signal}</td>
+        <td>${net.Channel}</td>
+        <td>${net.SecurityRating || net.Encryption}</td>
+      </tr>`;
+        });
+        html += `</table>`;
+        document.getElementById(tabId).innerHTML = html;
+      } catch (err) {
+        document.getElementById(tabId).innerHTML =
+          "<p>Error loading data</p>";
+      }
+    }
+
+    async function fetchConnectedDevices(tabId) {
+      try {
+        const resPromise = fetch(
+          "http://localhost:5000/connected-devices"
+        ).then((res) => res.json());
+
+        const [data] = await Promise.all([resPromise, delay(1000)]);
+
+        let html = `<table>
+      <tr><th>IP</th><th>MAC</th><th>Vendor</th></tr>`;
+        data.forEach((dev) => {
+          html += `<tr>
+        <td>${dev.IP}</td>
+        <td>${dev.MAC}</td>
+        <td>${dev.Vendor}</td>
+      </tr>`;
+        });
+        html += `</table>`;
+        document.getElementById(tabId).innerHTML = html;
+      } catch (err) {
+        document.getElementById(tabId).innerHTML =
+          "<p>Error loading devices</p>";
+      }
+    }
+
+    async function fetchSecuritySummary(tabId) {
+      try {
+        const resPromise = fetch(
+          "http://localhost:5000/security-summary"
+        ).then((res) => res.text());
+
+        const [text] = await Promise.all([resPromise, delay(1000)]);
+
+        const lines = text.split("\n");
+        let html = `<table><tr><th>Security Summary</th></tr>`;
+        lines.forEach((line) => {
+          html += `<tr><td>${line}</td></tr>`;
+        });
+        html += `</table>`;
+        document.getElementById(tabId).innerHTML = html;
+      } catch (err) {
+        document.getElementById(tabId).innerHTML =
+          "<p>Error loading summary</p>";
+      }
+    }
+  </script>
+</body>
+
+</html>

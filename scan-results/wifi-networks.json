@@ -1,1 +1,74 @@
-[{"SSID": "Marketplace Inn", "Signal": "100%", "Channel": "1", "Encryption": "Open"}, {"SSID": "Marketplace Inn", "Signal": "77%", "Channel": "6", "Encryption": "Open"}, {"SSID": "Marketplace Inn", "Signal": "54%", "Channel": "48", "Encryption": "Open"}, {"SSID": "Marketplace Inn", "Signal": "81%", "Channel": "149", "Encryption": "Open"}, {"SSID": "Linksys", "Signal": "50%", "Channel": "36", "Encryption": "Open"}, {"SSID": "DIRECT-qzM2020 Series", "Signal": "87%", "Channel": "11", "Encryption": "WPA2"}, {"SSID": "Xfinity Mobile", "Signal": "58%", "Channel": "161", "Encryption": "WPA2"}, {"SSID": "xfinitywifi", "Signal": "58%", "Channel": "161", "Encryption": "Open"}, {"SSID": "CBCI-A551-5", "Signal": "57%", "Channel": "161", "Encryption": "WPA2"}, {"SSID": "Linksys", "Signal": "70%", "Channel": "6", "Encryption": "Open"}, {"SSID": "CBCI-A551-2.4", "Signal": "48%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "Alula04D0DC", "Signal": "37%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "CenturyLink2834", "Signal": "54%", "Channel": "6", "Encryption": "WPA2"}, {"SSID": "Avadian Visitor", "Signal": "42%", "Channel": "1", "Encryption": "Open"}, {"SSID": "Emma1946", "Signal": "31%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "Premier-Cardiology", "Signal": "28%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "McDonalds Free WiFi", "Signal": "47%", "Channel": "1", "Encryption": "Open"}, {"SSID": "eBOS", "Signal": "47%", "Channel": "1", "Encryption": "Open"}, {"SSID": "Premier-Cardiology", "Signal": "32%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "Premier-Cardiology", "Signal": "31%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "H-Ascom", "Signal": "30%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "H-Secure1", "Signal": "31%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "H-Devices1", "Signal": "31%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "Avadian", "Signal": "42%", "Channel": "1", "Encryption": "WPA2"}, {"SSID": "Avadian", "Signal": "35%", "Channel": "64", "Encryption": "WPA2"}, {"SSID": "SEHGuest", "Signal": "32%", "Channel": "1", "Encryption": "Open"}, {"SSID": "GLEN EAST 2", "Signal": "41%", "Channel": "4", "Encryption": "Open"}, {"SSID": "H-Ascom", "Signal": "38%", "Channel": "11", "Encryption": "WPA2"}, {"SSID": "CXNK0109E593", "Signal": "45%", "Channel": "11", "Encryption": "WPA2"}, {"SSID": "Ariana", "Signal": "32%", "Channel": "11", "Encryption": "WPA2"}, {"SSID": "BSMITH", "Signal": "32%", "Channel": "6", "Encryption": "WPA2"}, {"SSID": "serviceswifi", "Signal": "41%", "Channel": "11", "Encryption": "WPA2"}, {"SSID": "Iwifi", "Signal": "40%", "Channel": "11", "Encryption": "WPA2"}, {"SSID": "Taco Bell WiFi", "Signal": "42%", "Channel": "11", "Encryption": "Open"}, {"SSID": "vendorwifi", "Signal": "41%", "Channel": "11", "Encryption": "WPA2"}, {"SSID": "Avadian Visitor", "Signal": "34%", "Channel": "64", "Encryption": "Open"}]
+[
+  {
+    "SSID": "ATTPdpVGgs 86:5a:25:b0:47:e3 -88",
+    "BSSID": "136",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "Whorehouse ac:8f:a9:cb:99:9c -84",
+    "BSSID": "132",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "Whorehouse ac:8f:a9:cb:99:98 -84",
+    "BSSID": "56",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "STARBOY Wifi 58:96:71:61:e2:20 -72",
+    "BSSID": "157",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "mushroomhouse-5G 34:98:b5:61:45:ff -85",
+    "BSSID": "153",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "mushroomhouse 34:98:b5:61:45:fe -81",
+    "BSSID": "4",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "Fam Omeir Kelly 0e:6d:c9:03:35:35 -82",
+    "BSSID": "11",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "Cathouse 58:07:f8:b7:30:34 -82",
+    "BSSID": "10",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "STARBOY Wifi 58:96:71:61:e2:18 -64",
+    "BSSID": "10",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  }
+]

@@ -1,19 +1,17 @@
 import http.server
-import socketserver
 import os
-import webbrowser
+import socketserver
 
-PORT = 8080
+# Paths
 base_dir = os.getcwd()
+output_dir = os.path.join(base_dir, "scan-results")
+index_path = os.path.join(base_dir, "index.html")
+PORT = 8080
 
 def start_server():
     os.chdir(base_dir)
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", PORT), handler) as httpd:
-        url = f"http://localhost:{PORT}/"
-        print(f"Serving at {url}")
-        webbrowser.open(url)  # Auto-open in default browser
+        print(f"Serving at http://localhost:{PORT}/scan-results/index.html")
         httpd.serve_forever()
-
-if __name__ == "__main__":
-    start_server()
+start_server()
