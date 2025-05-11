@@ -30,7 +30,7 @@ This repository contains a Python-based system to scan nearby WiFi networks, det
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/wifi-scanner.git
+git clone git@github.com:cg-manish/pentest-proj.git
 cd wifi-scanner
 ```
 
