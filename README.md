@@ -60,7 +60,37 @@ cd wifi-scanner
 Set up your environment:
 
 ```bash
-make setup
+sudo make setup
+```
+
+---
+
+## Installing Dependencies under the hood
+After cloning the repository, `cd` into the project folder named `wifi-scanner`. A Python virtual environment must be created before running the scripts.
+
+If `venv` is not installed on the system, it must be installed first:
+
+```
+sudo apt install -y python3.12-venv # or the equivalent Python version's venv
+```
+
+Create a Python virtual environment with `venv`:
+
+```bash
+python3 -m venv venv
+```
+
+Activate the virtual environment:
+
+```
+chmod +x venv/bin/activate
+source venv/bin/activate
+```
+
+Install the Python dependencies:
+
+```
+pip install -r requirements.txt # installs scapy and requests packages
 ```
 
 ---
@@ -165,8 +195,6 @@ wifi-scanner/
 - Admin dashboard with historical analytics
 - Voice-command integration
 - Scheduled scanning with alert system
-
----
 
 ---
 
