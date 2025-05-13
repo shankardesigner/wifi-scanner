@@ -51,7 +51,7 @@ This will:
 Run the application with:
 
 ```bash
-make run
+sudo make run
 ```
 
 This will:
@@ -63,13 +63,13 @@ This will:
 Stop all running processes:
 
 ```bash
-make stop
+sudo make stop
 ```
 
 Clean up the environment:
 
 ```bash
-make clean
+sudo make clean
 ```
 
 ---
@@ -92,10 +92,10 @@ wifi-scanner/
 ## 🛠️ Makefile Commands
 
 ```bash
-make setup     # Set up virtualenv + install packages
-make run       # Start backend + frontend servers
-make stop      # Kill running Python processes
-make clean     # Full cleanup (venv, output, cache)
+sudo make setup     # Set up virtualenv + install packages
+sudo make run       # Start backend + frontend servers
+sudo make stop      # Kill running Python processes
+sudo make clean     # Full cleanup (venv, output, cache)
 ```
 
 ---
