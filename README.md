@@ -10,6 +10,10 @@ A real-time wireless network inspection and visualization tool built with **Pyth
 
 ---
 
+![Default](images/default.png)
+![Scanning](images/scan.png)
+![Report](images/report.png)
+
 ## 📚 Table of Contents
 
 1. [Features](#features)  
@@ -65,7 +69,7 @@ sudo make setup
 
 ---
 
-## Installing Dependencies under the hood
+## 🔧 Installing Dependencies under the hood
 After cloning the repository, `cd` into the project folder named `wifi-scanner`. A Python virtual environment must be created before running the scripts.
 
 If `venv` is not installed on the system, it must be installed first:
@@ -193,8 +197,6 @@ wifi-scanner/
 - Device geolocation and heat mapping (Ocupado-style)
 - Export reports as PDF/CSV
 - Admin dashboard with historical analytics
-- Voice-command integration
-- Scheduled scanning with alert system
 
 ---
 

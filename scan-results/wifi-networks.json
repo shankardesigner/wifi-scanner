@@ -1,14 +1,6 @@
 [
   {
-    "SSID": "ATTPdpVGgs 8c:5a:25:b0:47:e0 -84",
-    "BSSID": "1",
-    "Signal": "Y",
-    "Channel": "US RSN(PSK/AES/AES)",
-    "Encryption": "Open",
-    "SecurityRating": "Unsecured (Open)"
-  },
-  {
-    "SSID": "ATTPdpVGgs 86:5a:25:b0:47:e3 -91",
+    "SSID": "ATTPdpVGgs 86:5a:25:b0:47:e3 -84",
     "BSSID": "136",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
@@ -16,7 +8,7 @@
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "Whorehouse ac:8f:a9:cb:99:9c -85",
+    "SSID": "Whorehouse ac:8f:a9:cb:99:9c -70",
     "BSSID": "132",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
@@ -24,7 +16,15 @@
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "Whorehouse ac:8f:a9:cb:99:98 -88",
+    "SSID": "Cathouse 58:07:f8:b7:30:3c -88",
+    "BSSID": "112",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "Cathouse 58:07:f8:b7:30:38 -81",
     "BSSID": "56",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
@@ -32,7 +32,7 @@
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "STARBOY Wifi 58:96:71:61:e2:20 -75",
+    "SSID": "STARBOY Wifi 58:96:71:61:e2:20 -70",
     "BSSID": "157",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
@@ -48,7 +48,23 @@
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "Whorehouse ac:8f:a9:cb:99:94 -72",
+    "SSID": "Whorehouse ac:8f:a9:cb:99:98 -63",
+    "BSSID": "44",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "Cathouse 58:07:f8:b7:30:34 -75",
+    "BSSID": "10",
+    "Signal": "Y",
+    "Channel": "US RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "ATTPdpVGgs 8c:5a:25:b0:47:e0 -70",
     "BSSID": "6",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
@@ -56,7 +72,7 @@
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "mushroomhouse 34:98:b5:61:45:fe -77",
+    "SSID": "mushroomhouse 34:98:b5:61:45:fe -79",
     "BSSID": "4",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
@@ -64,7 +80,7 @@
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "Fam Omeir Kelly 0e:6d:c9:03:35:35 -87",
+    "SSID": "Fam Omeir Kelly 0e:6d:c9:03:35:35 -83",
     "BSSID": "11",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
@@ -72,16 +88,24 @@
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "Cathouse 58:07:f8:b7:30:34 -85",
-    "BSSID": "10",
+    "SSID": "STARBOY Wifi 58:96:71:61:e2:18 -63",
+    "BSSID": "11",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
     "Encryption": "Open",
     "SecurityRating": "Unsecured (Open)"
   },
   {
-    "SSID": "STARBOY Wifi 58:96:71:61:e2:18 -67",
-    "BSSID": "10",
+    "SSID": "Moving Up 16:73:29:e9:15:d4 -90",
+    "BSSID": "11",
+    "Signal": "Y",
+    "Channel": "-- RSN(PSK/AES/AES)",
+    "Encryption": "Open",
+    "SecurityRating": "Unsecured (Open)"
+  },
+  {
+    "SSID": "Whorehouse ac:8f:a9:cb:99:94 -63",
+    "BSSID": "11",
     "Signal": "Y",
     "Channel": "US RSN(PSK/AES/AES)",
     "Encryption": "Open",
